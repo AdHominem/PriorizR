@@ -1,10 +1,6 @@
 import java.util.*;
 import java.util.stream.Collectors;
 
-enum Priority {
-    LOW, NORMAL, HIGH
-}
-
 public class Issue {
     private String name;
     private Date dateStart;
@@ -15,6 +11,7 @@ public class Issue {
     private boolean active = false;
     private Optional<Issue> requiredIssue = Optional.empty();
     private UUID id = UUID.randomUUID();
+    private UUID taskID;
 
     public Issue(final String name, final Priority priority, final List<Issue> subIssues) {
         this.name = name;
@@ -101,15 +98,21 @@ public class Issue {
 
     @Override
     public String toString() {
-        return String.format("Issue: %s\nID: %s\nPriority: %s\nRequires: %s\nDate started: %s\nDate done: %s\nSub issues: \n%s",
+        return String.format("Issue: %s\nID: %s\nTask: %s\nPriority: %s\nRequires: %s\nDate started: %s\nDate done: %s",
                 name,
                 id.toString(),
+                taskID,
                 priority,
                 requiredIssue.isPresent() ? requiredIssue.get().getName() : "None",
                 active ? dateStart.toString() : "Not active yet",
-                done ? dateDone.toString() : "Not done yet",
-                subIssues.isEmpty() ? "None" : subIssues.stream()
-                        .map(Issue::toString)
-                        .collect(Collectors.joining("\n\n")));
+                done ? dateDone.toString() : "Not done yet");
+    }
+
+    public UUID getTaskID() {
+        return taskID;
+    }
+
+    public void setTaskID(final UUID taskID) {
+        this.taskID = taskID;
     }
 }
