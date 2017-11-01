@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Issue {
     private String name;
@@ -7,10 +6,10 @@ public class Issue {
     private Date dateDone;
     private Priority priority = Priority.NORMAL;
     private List<Issue> subIssues = new ArrayList<>();
-    private boolean done = false;
-    private boolean active = false;
+    private boolean done;
+    private boolean active;
     private Optional<Issue> requiredIssue = Optional.empty();
-    private UUID id = UUID.randomUUID();
+    private final UUID id = UUID.randomUUID();
     private UUID taskID;
 
     public Issue(final String name, final Priority priority, final List<Issue> subIssues) {
@@ -42,7 +41,7 @@ public class Issue {
         return !requiredIssue.isPresent() || requiredIssue.get().isDone();
     }
 
-    public void requires(Issue issue) {
+    public void requires(final Issue issue) {
         requiredIssue = Optional.ofNullable(issue);
     }
 
@@ -88,17 +87,17 @@ public class Issue {
         this.priority = priority;
     }
 
-    public void addSubIssue(Issue subIssue) {
+    public void addSubIssue(final Issue subIssue) {
         subIssues.add(subIssue);
     }
 
-    public void removeSubIssue(Issue subIssue) {
+    public void removeSubIssue(final Issue subIssue) {
         subIssues.remove(subIssue);
     }
 
     @Override
     public String toString() {
-        return String.format("Issue: %s\nID: %s\nTask: %s\nPriority: %s\nRequires: %s\nDate started: %s\nDate done: %s",
+        return String.format("Issue: %s%nID: %s%nTask: %s%nPriority: %s%nRequires: %s%nDate started: %s%nDate done: %s",
                 name,
                 id.toString(),
                 taskID,
