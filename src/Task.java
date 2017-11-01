@@ -89,7 +89,7 @@ public class Task {
                 done ? dateDone.toString() : "Not done yet",
                 issues.isEmpty() ? "None" : issues.stream()
                         .map(Issue::toString)
-                        .collect(Collectors.joining("\n\n")));
+                        .collect(Collectors.joining("%n%n")));
     }
 
     public UUID getId() {
