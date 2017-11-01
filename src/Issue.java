@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 enum Priority {
@@ -17,6 +14,7 @@ public class Issue {
     private boolean done = false;
     private boolean active = false;
     private Optional<Issue> requiredIssue = Optional.empty();
+    private UUID id = UUID.randomUUID();
 
     public Issue(final String name, final Priority priority, final List<Issue> subIssues) {
         this.name = name;
@@ -31,6 +29,11 @@ public class Issue {
 
     public Issue(final String name) {
         this.name = name;
+    }
+
+    public Issue(final String name, final Issue requiredIssue) {
+        this.name = name;
+        this.requiredIssue = Optional.ofNullable(requiredIssue);
     }
 
     public Issue(final String name, final List<Issue> subIssues) {
@@ -94,8 +97,9 @@ public class Issue {
 
     @Override
     public String toString() {
-        return String.format("Issue: %s\nPriority: %s\nRequires: %s\nDate started: %s\nDate done: %s\nSub issues: \n%s",
+        return String.format("Issue: %s\nID: %s\nPriority: %s\nRequires: %s\nDate started: %s\nDate done: %s\nSub issues: \n%s",
                 name,
+                id.toString(),
                 priority,
                 requiredIssue.isPresent() ? requiredIssue.get().getName() : "None",
                 active ? dateStart.toString() : "Not active yet",
