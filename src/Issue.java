@@ -41,12 +41,16 @@ public class Issue {
         this.subIssues = subIssues;
     }
 
+    public boolean requirementFulfilled() {
+        return !requiredIssue.isPresent() || requiredIssue.get().isDone();
+    }
+
     public void requires(Issue issue) {
         requiredIssue = Optional.ofNullable(issue);
     }
 
     public void start() throws RequirementNotMetException {
-        if (requiredIssue.isPresent()) {
+        if (requirementFulfilled()) {
             active = true;
             dateStart = new Date();
         } else {
