@@ -11,15 +11,15 @@ public class PriorizR {
     private static List<Issue> issues = new ArrayList<>();
     private static List<Task> tasks = new ArrayList<>();
 
-    // TODO: Make null safe
-    public static Task getTaskByID(final UUID taskID) {
-        Optional<Task> result = tasks.stream()
+    public static List<Issue> getIssues() {
+        return issues;
+    }
+
+    public static Task getTaskByID(final UUID taskID) throws TaskIDNotFoundException {
+        return tasks.stream()
                 .filter(task -> task.getId().compareTo(taskID) == 0)
-                .findFirst();
-        if (!result.isPresent()) {
-            //throw new TaskIDNotFoundException();
-        }
-        return result.get();
+                .findFirst()
+                .orElseThrow(TaskIDNotFoundException::new);
     }
 
     public static List<Issue> suggestIssues() {
@@ -37,6 +37,19 @@ public class PriorizR {
         return highPriority.isEmpty() ? normalPriority.isEmpty() ? possibleIssues : normalPriority : highPriority;
     }
 
+    public static void loadTasksAndIssues(final List<Task> tasks) {
+        PriorizR.tasks = tasks;
+        PriorizR.issues = tasks.stream().flatMap(task -> task.getIssues().stream()).collect(Collectors.toList());
+    }
+
+    public static void loadIssue(final Issue issue) {
+        PriorizR.issues.add(issue);
+    }
+
+    public static void loadTask(final Task task) {
+        PriorizR.tasks.add(task);
+    }
+
     public static void main(final String[] args) {
         Issue SB1Read = new Issue("Read SB1");
         Issue SB1Exercises = new Issue("Do SB1 exercises", SB1Read);
@@ -51,7 +64,7 @@ public class PriorizR {
                 SB3Read, SB3Exercises, prepareExam, writeExam));
 
         Issue workoutIssue = new Issue("Workout");
-        Task workout = new Task("Workout", Arrays.asList(workoutIssue));
+        Task workout = new Task("Workout", workoutIssue);
 
         Issue scrum = new Issue("Scrum Course Pluralsight");
         Issue cissp = new Issue("CISSP Course Pluralsight");
@@ -67,7 +80,5 @@ public class PriorizR {
         tasks.add(prepare);
 
         suggestIssues().forEach(System.out::println);
-
-
     }
 }

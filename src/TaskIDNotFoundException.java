@@ -1,2 +1,2 @@
-public class TaskIDNotFoundException extends Throwable {
+public class TaskIDNotFoundException extends RuntimeException {
 }

@@ -11,7 +11,6 @@ public class Task {
     private boolean active;
     private final UUID id = UUID.randomUUID();
 
-
     public Task(final String name, final Priority priority, final List<Issue> issues) {
         this.name = name;
         this.priority = priority;
@@ -32,6 +31,11 @@ public class Task {
         this.name = name;
         this.issues = issues;
         this.issues.forEach(issue -> issue.setTaskID(id));
+    }
+
+    public Task(final String name, final Issue issue) {
+        this.name = name;
+        this.issues.add(issue);
     }
 
     public void start() {
