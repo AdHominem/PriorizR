@@ -1,10 +1,11 @@
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Task {
     private String name;
-    private Date dateStart;
-    private Date dateDone;
+    private LocalDateTime dateStart;
+    private LocalDateTime dateDone;
     private Priority priority = Priority.NORMAL;
     private List<Issue> issues = new ArrayList<>();
     private boolean done;
@@ -40,10 +41,10 @@ public class Task {
 
     public void start() {
         active = true;
-        dateStart = new Date();
+        dateStart = LocalDateTime.now();
     }
 
-    public Date getDateStart() {
+    public LocalDateTime getDateStart() {
         return dateStart;
     }
 
@@ -57,7 +58,7 @@ public class Task {
 
     public void done() {
         this.done = true;
-        this.dateDone = new Date();
+        this.dateDone = LocalDateTime.now();
     }
 
     public String getName() {

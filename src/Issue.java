@@ -1,16 +1,18 @@
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Issue {
-    private String name;
-    private Date dateStart;
-    private Date dateDone;
-    private Priority priority = Priority.NORMAL;
-    private List<Issue> subIssues = new ArrayList<>();
-    private boolean done;
-    private boolean active;
-    private Optional<Issue> requiredIssue = Optional.empty();
-    private final UUID id = UUID.randomUUID();
-    private UUID taskID;
+    protected String name;
+    protected LocalDateTime dateStart;
+    protected LocalDateTime dateDone;
+    protected Priority priority = Priority.NORMAL;
+    protected List<Issue> subIssues = new ArrayList<>();
+    protected boolean done;
+    protected boolean active;
+    protected Optional<Issue> requiredIssue = Optional.empty();
+    protected final UUID id = UUID.randomUUID();
+    protected UUID taskID;
+    protected double duration;
 
     public Issue(final String name, final Priority priority, final List<Issue> subIssues) {
         this.name = name;
@@ -48,13 +50,13 @@ public class Issue {
     public void start() throws RequirementNotMetException {
         if (requirementFulfilled()) {
             active = true;
-            dateStart = new Date();
+            dateStart = LocalDateTime.now();
         } else {
             throw new RequirementNotMetException();
         }
     }
 
-    public Date getDateStart() {
+    public LocalDateTime getDateStart() {
         return dateStart;
     }
 
@@ -68,7 +70,7 @@ public class Issue {
 
     public void done() {
         this.done = true;
-        this.dateDone = new Date();
+        this.dateDone = LocalDateTime.now();
     }
 
     public String getName() {

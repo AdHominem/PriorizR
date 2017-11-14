@@ -8,8 +8,8 @@ enum Priority {
 public class PriorizR {
 
     // Mocks persistence layer
-    private static List<Issue> issues = new ArrayList<>();
-    private static List<Task> tasks = new ArrayList<>();
+    private static ArrayList<Issue> issues = new ArrayList<>();
+    private static ArrayList<Task> tasks = new ArrayList<>();
 
     public static List<Issue> getIssues() {
         return issues;
@@ -37,9 +37,10 @@ public class PriorizR {
         return highPriority.isEmpty() ? normalPriority.isEmpty() ? possibleIssues : normalPriority : highPriority;
     }
 
-    public static void loadTasksAndIssues(final List<Task> tasks) {
+    public static void loadTasksAndIssues(final ArrayList<Task> tasks) {
         PriorizR.tasks = tasks;
-        PriorizR.issues = tasks.stream().flatMap(task -> task.getIssues().stream()).collect(Collectors.toList());
+        PriorizR.issues = tasks.stream().flatMap(task -> task.getIssues().stream())
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public static void loadIssue(final Issue issue) {

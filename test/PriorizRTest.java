@@ -3,6 +3,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PriorizRTest {
 
-    @Before
-    void init() {
+    @BeforeAll
+    static void init() {
         Issue SB1Read = new Issue("Read SB1");
         Issue SB1Exercises = new Issue("Do SB1 exercises", SB1Read);
         Issue SB2Read = new Issue("Read SB2", SB1Read);
@@ -34,7 +36,7 @@ class PriorizRTest {
         Issue csslp = new Issue("CSSLP Course Pluralsight");
         Task prepare = new Task("Prepare", Priority.HIGH, Arrays.asList(scrum, cissp, csslp));
 
-        PriorizR.loadTasksAndIssues(Arrays.asList(anonymity, workout, prepare));
+        PriorizR.loadTasksAndIssues(new ArrayList<>(Arrays.asList(anonymity, workout, prepare)));
     }
 
     @Test
@@ -47,6 +49,13 @@ class PriorizRTest {
         Task task = new Task("Test task");
         PriorizR.loadTask(task);
         assertEquals(task, PriorizR.getTaskByID(task.getId()));
+    }
+
+    @Test
+    void createScheduledIssueTest() {
+        ScheduledIssue scheduledIssue = new ScheduledIssue("Nikolaus", LocalDateTime.of(2017, 12,
+                6, 7, 0));
+        System.out.println(scheduledIssue.toString());
     }
 
 }
